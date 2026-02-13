@@ -1,11 +1,11 @@
 {
   "name": "simple-shoes-kiss-japt8",
-  "productName": "simple-shoes-kiss-japt8",
-  "description": "My Electron application description",
+  "productName": "PrivChat",
+  "description": "Privacy focused chat app",
   "keywords": [],
   "main": "./main.js",
   "version": "1.0.0",
-  "author": "thesh",
+  "author": "MaggiMoggi",
   "scripts": {
     "start": "electron ."
   },
@@ -13,5 +13,10 @@
     "electron": "^40.4.0"
   },
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "gsap": "^3.14.2",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
 }

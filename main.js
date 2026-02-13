@@ -1,4 +1,6 @@
 // Modules to control application life and create native browser window
+// noinspection SpellCheckingInspection
+
 const { app, BrowserWindow } = require('electron')
 const path = require('node:path')
 const net = require('net');
@@ -6,16 +8,10 @@ const net = require('net');
 
 const client = new net.Socket();
 
-client.connect(28015, "10.0.0.15", () => {
-  console.log('Connected to server');
-});
-
-client.on('error', (error) => {
-  console.error('Network error:', error.message);
-});
 
 
-function createWindow () {
+
+function createLoaderWindow () {
   // Create the browser window.
   const loaderWindow = new BrowserWindow({
     width: 300,
@@ -24,29 +20,52 @@ function createWindow () {
     resizable: false,
     frame: false,
 
+    icon: path.join(__dirname, 'assets/privchaticon.ico'),
+
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'windows/loader/preload.js')
     }
   })
   loaderWindow.removeMenu();
-
-  loaderWindow.loadFile('index.html') // load html
-
-
-
+  loaderWindow.loadFile('windows/loader/loader.html');
+  return loaderWindow;
 }
+function createMainWindow () {
+  const mainWindow = new BrowserWindow({
 
+
+
+
+    icon: path.join(__dirname, 'assets/privchaticon.ico'),
+
+    webPreferences: {
+      preload: path.join(__dirname, 'windows/main/preload.js')
+    }
+  })
+
+  mainWindow.loadFile('windows/main/main.html');
+  mainWindow.removeMenu();
+  return mainWindow;
+}
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  createWindow()
+  const loaderWindow = createLoaderWindow()
 
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
+  client.connect(28015, "10.0.0.15", () => {
+    console.log('Connected to server');
+    loaderWindow.webContents.send('server-connected',"Connection sucessful");
+  });
+
+  client.on('error', (error) => {
+    console.error('Network error:', error.message);
+  });
+
+
+
+
+
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
