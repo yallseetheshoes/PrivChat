@@ -1,0 +1,17 @@
+{
+  "name": "simple-shoes-kiss-japt8",
+  "productName": "simple-shoes-kiss-japt8",
+  "description": "My Electron application description",
+  "keywords": [],
+  "main": "./main.js",
+  "version": "1.0.0",
+  "author": "thesh",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^40.4.0"
+  },
+  "license": "ISC",
+  "type": "commonjs"
+}
