@@ -14,10 +14,26 @@ html, body {
 .circle {
     width: 50px;
     height: 50px;
-    background-color: #007ACC;
     border-radius: 50%;
-    opacity: 1;
+    background-color: #007ACC;
+
+    transform: scale(0.5);
+    opacity: 0;
+
+    transition:
+            transform 400ms cubic-bezier(.2,.8,.2,1),
+            background-color 300ms ease,
+            opacity 200ms ease;
+}
+.circle.searching {
     animation: radar 2s infinite;
+    opacity: 1;
+}
+.circle.success {
+    animation: radarsuccess 1s;                 /* kill pulse */
+    background-color: #2ECC71;       /* green */
+    transform: scale(0.5);             /* zoom back in */
+    opacity: 1;
 }
 .loadText {
     font-family: sans-serif;
@@ -25,24 +41,34 @@ html, body {
     color: lightgray;
     margin-top: 50px;
 }
+@keyframes radarsuccess {
+    from {
+        transform: scale(2);
+        opacity: 0;
+    }
+    to {
+        transform: scale(0.5);
+        opacity: 1;
+    }
+}
 
 @keyframes radar {
     0% {
         transform: scale(0.5);
         opacity: 0;
     }
-    1% {
-        transform: scale(0.5);
+
+    10% {
         opacity: 1;
     }
-    50% {
+
+    60% {
         transform: scale(1.5);
         opacity: 0;
     }
+
     100% {
-        transform: scale(0.5);
+        transform: scale(1.5);
         opacity: 0;
     }
-
-
 }
