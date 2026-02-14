@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
@@ -8,10 +8,20 @@
     <title>Loader</title>
   </head>
   <body>
+    <div class="pages">
+      <div class="page loader">
+        <div class="circle searching" id="loaderCircle"></div>
+        <h1 class="loadText">Connecting to server...</h1>
+        <!-- You can also require other files to run in this process -->
+        <script src="renderer.js"></script>
+      </div>
+      <div class="page login">
+        <img src="assets/logo.png" draggable="false" alt="" class = "logo">
+        <input placeholder="Username" class="input username"></input>
+        <input placeholder="Password" class="input password" type="password">
 
-      <div class="circle"></div>
-      <h1 class="loadText">Connecting to server...</h1>
-    <!-- You can also require other files to run in this process -->
-    <script src="renderer.js"></script>
+        <button class="loginBtn">Login</button>
+      </div>
+    </div>
   </body>
 </html>
