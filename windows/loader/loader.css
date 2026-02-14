@@ -19,20 +19,15 @@ html, body {
 
     transform: scale(0.5);
     opacity: 0;
-
-    transition:
-            transform 400ms cubic-bezier(.2,.8,.2,1),
-            background-color 300ms ease,
-            opacity 200ms ease;
 }
 .circle.searching {
     animation: radar 2s infinite;
     opacity: 1;
 }
 .circle.success {
-    animation: radarsuccess 1s;                 /* kill pulse */
-    background-color: #2ECC71;       /* green */
-    transform: scale(0.5);             /* zoom back in */
+    animation: radarsuccess 1s;
+    background-color: #2ECC71;
+    transform: scale(0.5);
     opacity: 1;
 }
 .loadText {
