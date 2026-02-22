@@ -53,14 +53,9 @@ function createMainWindow () {
 app.whenReady().then(() => {
   const loaderWindow = createLoaderWindow()
 
-  client.connect(28015, "10.0.0.15", () => {
-    console.log('Connected to server');
-    loaderWindow.webContents.send('server-connected',"Connection sucessful");
-  });
 
-  client.on('error', (error) => {
-    console.error('Network error:', error.message);
-  });
+    loaderWindow.webContents.send('server-connected',"Connection sucessful");
+
 
 
 
