@@ -52,14 +52,18 @@ app.whenReady().then(() => {
   const options = {
     rejectUnauthorized: false
   };
-  https.get('https://localhost:28015/health',options, (res) => { // REMOVE OPTIONS FOR RELEASE!
-    if (res.statusCode === 200) {
-      loaderWindow.webContents.send('server-connection',"Connection successful");
-      console.log("connection success");
-    }
-  }).on('error', () => {
-    loaderWindow.webContents.send('server-connection',"Connection failed");
-    console.log("connection error");
+  loaderWindow.webContents.on('did-finish-load', () => {
+    https.get('https://localhost:28015/health',options, (res) => { // REMOVE OPTIONS FOR RELEASE!
+      if (res.statusCode === 200) {
+        setTimeout(() =>{
+          loaderWindow.webContents.send('server-connection',"Connection successful");
+          console.log("connection success");
+        },2000)
+      }
+    }).on('error', () => {
+      loaderWindow.webContents.send('server-connection',"Connection failed");
+      console.log("connection error");
+    });
   });
 })
 
