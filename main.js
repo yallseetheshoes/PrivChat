@@ -1,12 +1,9 @@
-// Modules to control application life and create native browser window
-// noinspection SpellCheckingInspection
-
 const { app, BrowserWindow } = require('electron')
 const path = require('node:path')
-const net = require('net');
+const https = require('https');
 
 
-const client = new net.Socket();
+
 
 
 
@@ -15,7 +12,7 @@ function createLoaderWindow () {
   // Create the browser window.
   const loaderWindow = new BrowserWindow({
     width: 300,
-    height: 200,
+    height: 350,
 
     resizable: false,
     frame: false,
@@ -31,6 +28,7 @@ function createLoaderWindow () {
   return loaderWindow;
 }
 function createMainWindow () {
+
   const mainWindow = new BrowserWindow({
 
 
@@ -47,20 +45,18 @@ function createMainWindow () {
   mainWindow.removeMenu();
   return mainWindow;
 }
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+
+
 app.whenReady().then(() => {
   const loaderWindow = createLoaderWindow()
 
-
-    loaderWindow.webContents.send('server-connected',"Connection sucessful");
-
-
-
-
-
-
+  https.get('https://localhost:28015/health', (res) => {
+    if (res.statusCode === 200) {
+      loaderWindow.webContents.send('server-connection',"Connection successful");
+    }
+  }).on('error', (err) => {
+    loaderWindow.webContents.send('server-connection',"Connection failed");
+  });
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
