@@ -49,19 +49,25 @@ function createMainWindow () {
 
 app.whenReady().then(() => {
   const loaderWindow = createLoaderWindow()
-
-  https.get('https://localhost:28015/health', (res) => {
+  const options = {
+    rejectUnauthorized: false
+  };
+  https.get('https://localhost:28015/health',options, (res) => { // REMOVE OPTIONS FOR RELEASE!
     if (res.statusCode === 200) {
       loaderWindow.webContents.send('server-connection',"Connection successful");
+      console.log("connection success");
     }
-  }).on('error', (err) => {
+  }).on('error', () => {
     loaderWindow.webContents.send('server-connection',"Connection failed");
+    console.log("connection error");
   });
 })
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+
+
+
+
+//macOS stuff
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
