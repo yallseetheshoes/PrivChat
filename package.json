@@ -1,11 +1,11 @@
 {
-  "name": "simple-shoes-kiss-japt8",
+  "name": "privchat",
   "productName": "PrivChat",
   "description": "Privacy focused chat app",
   "keywords": [],
   "main": "./main.js",
   "version": "1.0.0",
-  "author": "MaggiMoggi",
+  "author": "Yallseetheshoes",
   "scripts": {
     "start": "electron ."
   },
