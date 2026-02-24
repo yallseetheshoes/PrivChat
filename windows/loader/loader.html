@@ -11,17 +11,14 @@
     <div class="pages">
       <div class="page loader">
         <div class="circle searching" id="loaderCircle"></div>
-        <h1 class="loadText">Connecting to server...</h1>
-        <!-- You can also require other files to run in this process -->
-
+        <h1 class="loadText loading">Connecting to server...</h1>
       </div>
-      <div class="page login">
-        <img src="assets/logo.png" draggable="false" alt="" class = "logo">
-        <input maxlength="50" placeholder="Username" class="input username">
-        <input maxlength="50" placeholder="Password" class="input password" type="password">
-
-        <button class="loginBtn">Login</button>
-      </div>
+      <form class="page login">
+        <img src="assets/logo.png" draggable="false" alt="" class="logo">
+        <input minlength="5" maxlength="50" placeholder="Username" class="input username" required>
+        <input minlength="5" maxlength="50" placeholder="Password" class="input password" type="password" required>
+        <button class="loginBtn" type="submit">Login</button>
+      </form>
     </div>
   </body>
   <script src="renderer.js"></script>
