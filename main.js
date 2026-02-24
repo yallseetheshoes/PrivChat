@@ -49,25 +49,44 @@ function createMainWindow () {
 
 app.whenReady().then(() => {
   const loaderWindow = createLoaderWindow()
-  const options = {
-    rejectUnauthorized: false
-  };
+
   loaderWindow.webContents.on('did-finish-load', () => {
-    https.get('https://localhost:28015/health',options, (res) => { // REMOVE OPTIONS FOR RELEASE!
-      if (res.statusCode === 200) {
-        setTimeout(() =>{
-          loaderWindow.webContents.send('server-connection',"Connection successful");
-          console.log("connection success");
-        },2000)
-      }
-    }).on('error', () => {
-      loaderWindow.webContents.send('server-connection',"Connection failed");
-      console.log("connection error");
-    });
+    checkUntilUp(loaderWindow);
   });
 })
 
+function checkUntilUp(loaderWindow, delay = 2000) {
+  checkServerStatus().then(status => {
+    if (status) {
+      loaderWindow.webContents.send('server-connection', "Connection successful");
+    } else {
+      console.log('Server connection failed, retrying');
+      setTimeout(() => checkUntilUp(loaderWindow, delay), delay);
+    }
+  });
+}
 
+function checkServerStatus() {
+  return new Promise((resolve) => {
+    const options = {
+      rejectUnauthorized: false // REMOVE FOR RELEASE
+    };
+    https.get('https://localhost:28015/health', options, (res) => {
+      if (res.statusCode === 200) {
+        setTimeout(() => {
+
+          console.log("connection success");
+          resolve(true);
+        }, 2000);
+      } else {
+        resolve(false);
+      }
+    }).on('error', () => {
+      console.log("connection error");
+      resolve(false);
+    });
+  });
+}
 
 
 
