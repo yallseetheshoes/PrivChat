@@ -3,5 +3,7 @@
 const { contextBridge, ipcRenderer } = require('electron/renderer')
 
 contextBridge.exposeInMainWorld('electron', {
-  connectionState: (callback) => ipcRenderer.on('server-connection', callback)
+  connectionState: (callback) => ipcRenderer.on('server-connection', callback),
+  login: (credentials) => ipcRenderer.send('login', credentials)
+
 });
