@@ -1,7 +1,13 @@
-/**
- * This file is loaded via the <script> tag in the loader.html file and will
- * be executed in the renderer process for that window. No Node.js APIs are
- * available in this process because `nodeIntegration` is turned off and
- * `contextIsolation` is turned on. Use the contextBridge API in `preload.js`
- * to expose Node.js functionality from the main process.
- */
+const radarCircle = document.getElementById('loaderCircle')
+const loaderText = document.getElementsByClassName('loadText')[0]
+const pages = document.getElementsByClassName('pages')[0]
+window.electron.connectionState((event, args) => {
+    if (args === 'Connection successful') {
+        loaderText.innerHTML = 'Connection successful!'
+        radarCircle.classList.remove('searching');
+        radarCircle.classList.add('success');
+        setTimeout(() => {
+            pages.classList.add('active-login')
+        },1000)
+    }
+});
