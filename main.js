@@ -1,6 +1,7 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('node:path')
 const https = require('https');
+const axios = require('axios');
 
 
 
@@ -52,6 +53,18 @@ app.whenReady().then(() => {
 
   loaderWindow.webContents.on('did-finish-load', () => {
     checkUntilUp(loaderWindow);
+  });
+
+  ipcMain.on('login', async (event, credentials) => {
+    console.log('Login attempt:', credentials);
+    try {
+      const res = await axios.post('https://localhost:28015/login', credentials, {
+        httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false })
+      });
+      event.reply('login-response', res.data);
+    } catch (err) {
+      event.reply('login-response', { success: false, error: err.message });
+    }
   });
 })
 
