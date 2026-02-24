@@ -12,7 +12,10 @@ window.electron.connectionState((event, args) => {
     }
 });
 
+
 const loginPage = document.querySelector('.page.login');
+const inputs = document.querySelectorAll('input');
 loginPage.addEventListener('submit', (event) => {
     event.preventDefault()
+    window.electron.login({ username: inputs[0].value, password: inputs[1].value })
 })
