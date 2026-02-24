@@ -54,6 +54,14 @@ html, body {
     box-shadow: 0 0 8px #7289DA;
     border-color: #007ACC;
 }
+.input:invalid {
+    border: 2px solid #222;
+    background-color: #333;
+    color: #fff;
+}
+.input:invalid::placeholder {
+    color: #aaa;
+}
 
 .input.username {}
 .input.password {}
