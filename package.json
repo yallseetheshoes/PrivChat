@@ -3,7 +3,7 @@
   "productName": "PrivChat",
   "description": "Privacy focused chat app",
   "keywords": [],
-  "main": "./main.js",
+  "main": "src/main.js",
   "version": "1.0.0",
   "author": "Yallseetheshoes",
   "scripts": {

@@ -10,7 +10,6 @@ const axios = require('axios');
 
 
 function createLoaderWindow () {
-  // Create the browser window.
   const loaderWindow = new BrowserWindow({
     width: 300,
     height: 350,
@@ -21,15 +20,15 @@ function createLoaderWindow () {
     icon: path.join(__dirname, 'assets/privchaticon.ico'),
 
     webPreferences: {
+      nodeIntegration: true,
       preload: path.join(__dirname, 'windows/loader/preload.js')
     }
   })
   loaderWindow.removeMenu();
-  loaderWindow.loadFile('windows/loader/loader.html');
+  loaderWindow.loadFile('src/windows/loader/loader.html');
   return loaderWindow;
 }
 function createMainWindow () {
-
   const mainWindow = new BrowserWindow({
 
 
@@ -38,15 +37,15 @@ function createMainWindow () {
     icon: path.join(__dirname, 'assets/privchaticon.ico'),
 
     webPreferences: {
-      preload: path.join(__dirname, 'windows/main/preload.js')
+      preload: path.join(__dirname, 'src/windows/main/preload.js')
     }
   })
-
-  mainWindow.loadFile('windows/main/main.html');
+  mainWindow.loadFile('src/windows/main/main.html');
   mainWindow.removeMenu();
   return mainWindow;
 }
 
+let sessionToken = null
 
 app.whenReady().then(() => {
   const loaderWindow = createLoaderWindow()
@@ -61,6 +60,7 @@ app.whenReady().then(() => {
       const res = await axios.post('https://localhost:28015/login', credentials, {
         httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false })
       });
+      console.log('Login result:', res.data);
       event.reply('login-response', res.data);
     } catch (err) {
       event.reply('login-response', { success: false, error: err.message });
@@ -68,9 +68,13 @@ app.whenReady().then(() => {
   });
 })
 
+
+//server status checks
 function checkUntilUp(loaderWindow, delay = 2000) {
   checkServerStatus().then(status => {
+
     if (status) {
+
       loaderWindow.webContents.send('server-connection', "Connection successful");
     } else {
       console.log('Server connection failed, retrying');
@@ -78,24 +82,21 @@ function checkUntilUp(loaderWindow, delay = 2000) {
     }
   });
 }
-
 function checkServerStatus() {
   return new Promise((resolve) => {
     const options = {
       rejectUnauthorized: false // REMOVE FOR RELEASE
     };
+    console.log("Checking status...");
     https.get('https://localhost:28015/health', options, (res) => {
       if (res.statusCode === 200) {
         setTimeout(() => {
-
-          console.log("connection success");
           resolve(true);
         }, 2000);
       } else {
         resolve(false);
       }
     }).on('error', () => {
-      console.log("connection error");
       resolve(false);
     });
   });
